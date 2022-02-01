@@ -1,11 +1,15 @@
 import json
+import os
+import threading
+
 from config.constants import ConfigList, TYPE
 from distutils.util import strtobool
-import os
 
 
 class Config:
     _need_json_parse = [TYPE.Object, TYPE.Array]
+    __singleton_lock = threading.Lock()
+    __singleton_instance = None
 
     def __init__(self):
         self._values = {}
@@ -27,3 +31,11 @@ class Config:
 
     def __getattr__(self, key):
         return self._values.get(key)
+
+    @classmethod
+    def instance(cls):
+        if not cls.__singleton_instance:
+            with cls.__singleton_lock:
+                if not cls.__singleton_instance:
+                    cls.__singleton_instance = cls()
+        return cls.__singleton_instance
