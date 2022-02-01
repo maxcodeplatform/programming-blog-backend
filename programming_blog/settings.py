@@ -7,7 +7,7 @@ from core.env_config_loader import Config
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_FILE_PATH = os.path.join(BASE_DIR, ".env")
 load_dotenv(dotenv_path=ENV_FILE_PATH)
-config = Config()
+config = Config.instance()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config.APP_SECRET
