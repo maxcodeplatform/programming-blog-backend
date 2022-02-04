@@ -2,7 +2,7 @@ import json
 import os
 import threading
 
-from config.constants import ConfigList, TYPE
+from config.constants.envs import ConfigList, TYPE
 from distutils.util import strtobool
 
 
