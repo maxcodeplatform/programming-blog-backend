@@ -12,7 +12,7 @@ class BaseToken:
     lifetime = None
 
     def __init__(self, token=None):
-        if self.token_type in None and self.lifetime is None:
+        if self.token_type is None and self.lifetime is None:
             raise TokenError("token_type and lifetime is required")
         self.token = token
         self.current_time = aware_utcnow()
@@ -26,6 +26,12 @@ class BaseToken:
             self.payload = {"type": self.token_type}
             self.set_exp(from_time=self.current_time, lifetime=self.lifetime)
             self.set_iat(at_time=self.current_time)
+
+    def __getitem__(self, key):
+        return self.payload[key]
+
+    def __setitem__(self, key, value):
+        self.payload[key] = value
 
     @staticmethod
     def decode(token):
@@ -66,3 +72,28 @@ class BaseToken:
         claim_time = datetime_from_epoch(claim_value)
         if claim_time <= current_time:
             raise TokenError("Token '{}' claim has expired".format(claim))
+
+    @classmethod
+    def login(cls, user):
+        user_id = user.id
+        if not isinstance(user_id, int):
+            user_id = str(user_id)
+        token = cls()
+        token["id"] = user_id
+        return token
+
+
+class AccessToken(BaseToken):
+    token_type = "access"
+    lifetime = timedelta(days=7)
+
+
+class RefreshToken(BaseToken):
+    token_type = "refresh"
+    lifetime = timedelta(days=30)
+
+    @property
+    def access_token(self):
+        access = AccessToken()
+        access.set_exp(from_time=self.current_time)
+        return access.get_token
