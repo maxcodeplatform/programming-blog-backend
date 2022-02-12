@@ -9,8 +9,8 @@ django.setup()
 
 def run_code():
     class User:
-        def __init__(self, id):
-            self.id = id
+        def __init__(self, _id):
+            self.id = _id
 
     user = User(1)
     rtc = RefreshToken.login(user)

@@ -98,4 +98,5 @@ class RefreshToken(BaseToken):
     def access_token(self):
         access = AccessToken()
         access.set_exp(from_time=self.current_time)
+        # TODO: add RefreshToken payloads to AccessToken payloads
         return access.get_token
