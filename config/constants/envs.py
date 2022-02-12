@@ -15,3 +15,4 @@ class ConfigList(Enum):
     APP_SECRET = {"key": "APP_SECRET", "type": TYPE.String}
     ALLOWED_HOSTS = {"key": "ALLOWED_HOSTS", "type": TYPE.Array}
     ENV = {"key": "ENV", "type": TYPE.String}
+    JWT_SECRET = {"key": "JWT_SECRET", "type": TYPE.String}
