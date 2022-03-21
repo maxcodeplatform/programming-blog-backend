@@ -28,7 +28,7 @@ DEFAULT_APPS = [
 ]
 
 THIRD_PARTY_APP = [
-
+    'rest_framework',
 ]
 
 MY_APP = [
@@ -112,3 +112,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'authentication.authentication_backend.CustomJWTAuthenticationBackend',
+    ]
+}
