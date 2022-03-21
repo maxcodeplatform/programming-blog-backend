@@ -94,9 +94,17 @@ class RefreshToken(BaseToken):
     token_type = "refresh"
     lifetime = timedelta(days=30)
 
+    no_copy_claims = (
+        "exp",
+    )
+
     @property
     def access_token(self):
         access = AccessToken()
         access.set_exp(from_time=self.current_time)
-        # TODO: add RefreshToken payloads to AccessToken payloads
+        no_copy = self.no_copy_claims
+        for claim, value in self.payload.items():
+            if claim in no_copy:
+                continue
+            access[claim] = value
         return access.get_token
