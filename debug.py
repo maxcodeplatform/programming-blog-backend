@@ -3,10 +3,6 @@ import os
 import django
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'programming_blog.settings')
-django.setup()
-
-
 def run_code():
     class User:
         def __init__(self, _id):
@@ -19,5 +15,7 @@ def run_code():
 
 
 if __name__ == "__main__":
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'programming_blog.settings')
+    django.setup()
     run_code()
 
