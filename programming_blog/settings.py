@@ -34,6 +34,7 @@ THIRD_PARTY_APP = [
 
 MY_APP = [
     'authentication.apps.AuthenticationConfig',
+    'users.apps.UsersConfig',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APP + MY_APP
