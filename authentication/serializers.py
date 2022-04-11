@@ -20,7 +20,9 @@ class BaseTokenSerializer(serializers.Serializer):
     username_field = get_user_model().USERNAME_FIELD
 
     default_error_messages = {
-        "no_active_account": "No active account found with the given credentials"
+        "no_active_account": "No active account found with the given credentials",
+        "account_not_confirmed": "Account isn't confirmed with the given credentials",
+        "account_blocked": "Account is blocked",
     }
 
     def __init__(self, *args, **kwargs):
@@ -45,6 +47,18 @@ class BaseTokenSerializer(serializers.Serializer):
             raise AuthenticationFailed(
                 self.error_messages["no_active_account"],
                 "no_active_account",
+            )
+
+        if not self.user.is_confirmed:
+            raise AuthenticationFailed(
+                self.error_messages["no_active_account"],
+                "no_active_account",
+            )
+
+        if self.user.is_blocked:
+            raise AuthenticationFailed(
+                self.error_messages["account_blocked"],
+                "account_blocked"
             )
 
         return {}
