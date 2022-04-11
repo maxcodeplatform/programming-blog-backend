@@ -41,7 +41,7 @@ class BaseTokenSerializer(serializers.Serializer):
 
         self.user = authenticate(**authenticate_kwargs)
 
-        if self.user is None or self.user.is_active:
+        if self.user is None or not self.user.is_active:
             raise AuthenticationFailed(
                 self.error_messages["no_active_account"],
                 "no_active_account",
