@@ -57,4 +57,10 @@ class CustomJWTAuthenticationBackend(authentication.BaseAuthentication):
         if not user.is_active:
             raise AuthenticationFailed("User is inactive")
 
+        if not user.is_confirmed:
+            raise AuthenticationFailed("account_not_confirm")
+
+        if user.is_blocked:
+            raise AuthenticationFailed("account_is_blocked")
+
         return user
