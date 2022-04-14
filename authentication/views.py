@@ -40,7 +40,7 @@ class RefreshTokenView(TokenViewBase):
 
 
 class TestView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         config = getattr(settings, "REST_FRAMEWORK", None)

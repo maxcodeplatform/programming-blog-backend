@@ -4,6 +4,7 @@ from rest_framework import authentication, HTTP_HEADER_ENCODING
 from rest_framework.exceptions import AuthenticationFailed
 
 from config.constants.auth import AuthSetting
+from core.exceptions.auth import TokenError, InvalidToken
 from core.helpers.auth.token_backend import AccessToken
 
 
@@ -20,7 +21,10 @@ class CustomJWTAuthenticationBackend(authentication.BaseAuthentication):
         prefix, raw_token = self.get_auth_header_and_raw_token(header)
         if raw_token is None or prefix is None:
             return None
-        validated_token = AccessToken(raw_token)
+        try:
+            validated_token = AccessToken(raw_token)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
         return self.get_user(validated_token), validated_token
 
     @staticmethod
