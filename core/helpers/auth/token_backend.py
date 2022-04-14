@@ -21,8 +21,8 @@ class BaseToken:
         if token is not None:
             try:
                 self.payload = self.decode(token)
-            except TokeDecodeError:
-                raise TokenError("Token is invalid or expired")
+            except TokeDecodeError as e:
+                raise TokenError(e.args[0])
             self.check_exp()
         else:
             self.payload = {"type": self.token_type}
